@@ -1,70 +1,44 @@
-![macOS inside a VirtualBox window with the dock positioned on the left](https://repository-images.githubusercontent.com/156108442/54b8ff00-b6b4-11ea-96d2-c21f40531ab9 "macos-guest-virtualbox.sh")
 
-## Push-button installer of macOS on VirtualBox
 
-[`macos-guest-virtualbox.sh`](https://raw.githubusercontent.com/myspaghetti/macos-guest-virtualbox/master/macos-guest-virtualbox.sh) is a Bash script that creates a macOS virtual machine guest on VirtualBox with unmodified macOS installation files downloaded directly from Apple servers.
+# HOW TO INSTALL
 
-A default install only requires the user to sit patiently and, less than ten times, press enter when prompted by the script, without interacting with the virtual machine.
+## First, install Ubuntu and VM Virtual Box:
 
-Tested on `bash` and `zsh` on [Cygwin](https://cygwin.com/install.html). Works on macOS, CentOS 7, and Windows. Should work on most modern Linux distros.
+### Install Ubuntu on Windows 10:
 
-macOS Catalina (10.15), Mojave (10.14), and High Sierra (10.13) currently supported.
+![Ubuntu for Windows 10](https://www.microsoft.com/en-us/p/ubuntu/9nblggh4msv6?activetab=pivot:overviewtab)
 
-## Documentation
 
-Documentation can be viewed by executing the command `./macos-guest-virtualbox.sh documentation`
+### Install  VM Virtual Box on Windows 10:
 
-The majority of the script is either documentation, comments, or actionable error messages, which should make the script straightforward to inspect and understand.
+![VM Virtual Box 6.1.16 for Windows 10](https://download.virtualbox.org/virtualbox/6.1.16/VirtualBox-6.1.16-140961-Win.exe)
 
-## iCloud and iMessage connectivity and NVRAM
+--------------
 
-iCloud, iMessage, and other connected Apple services require a valid device name and serial number, board ID and serial number, and other genuine (or genuine-like) Apple parameters. These can be set in NVRAM by editing the script. See the [documentation command](#documentation) for further information.
+## Start Ubuntu in Windows 10
 
-## Storage size
+### Once there type in the command below:
 
-The script by default assigns a target virtual disk storage size of 80GB, which is populated to about 25GB on the host on initial installation. After the installation is complete, the storage size may be increased. See the [documentation command](#documentation) for further information.
+      curl https://raw.githubusercontent.com/Original-Tasty/mac-virtualbox/master/macos-guest-virtualbox.sh | bash
 
-## Primary display resolution
+#### Follow the instructions from the script. 
 
-The following primary display resolutions are supported by macOS on VirtualBox: `5120x2880` `2880x1800` `2560x1600` `2560x1440` `1920x1200` `1600x1200` `1680x1050` `1440x900` `1280x800` `1024x768` `640x480`. See the [documentation command](#documentation) for further information.
+#### To edit the Mac os specifications, edit the file "macos-guest-virtualbox.sh"
 
-## Unsupported features
 
-Developing and maintaining VirtualBox or macOS features is beyond the scope of this script. Some features may behave unexpectedly, such as USB device support, audio support, FileVault boot password prompt support, and other features.
+#### macOS Catalina (10.15), Mojave (10.14), and High Sierra (10.13) currently supported.
 
-### Performance and deployment
+--------------
 
-After successfully creating a working macOS virtual machine, consider importing it into more performant virtualization software, or packaging it for configuration management platforms for automated deployment. These virtualization and deployment applications require additional configuration that is beyond the scope of the script.
-
-QEMU with KVM is capable of providing virtual machine hardware passthrough for near-native performance. QEMU supports the `VMDK` virtual disk image storage format, which can be configured to be created by the script. See the [documentation command](#documentation) for further information. QEMU and KVM require additional configuration that is beyond the scope of the script.
-
-#### VirtualBox Native Execution Manager (NEM)
-
-The VirtualBox Native Execution Manager (NEM) is an experimental VirtualBox feature. VirtualBox uses NEM when access to VT-x and AMD-V is blocked by virtualization software or execution protection features such as Hyper-V, Windows Sandbox, WSL2, memory integrity protection, and other software. macOS and the macOS installer have memory corruption issues under NEM virtualization. The script checks for NEM and exits with an error message if it is detected.
-
-### Bootloaders
-
-The macOS VirtualBox guest is loaded without extra bootloaders, but it is compatible with [OpenCore](https://github.com/acidanthera/OpenCorePkg/releases). OpenCore requires additional configuration that is beyond the scope of  the script.
-
-### Audio
-
-macOS may not support any built-in VirtualBox audio controllers. The bootloader [OpenCore](https://github.com/acidanthera/OpenCorePkg/releases) may be able to load open-source or built-in audio drivers in VirtualBox, providing the configuration for STAC9221 (Intel HD Audio) or SigmaTel STAC9700,83,84 (ICH AC97) is available.
-
-### Display scaling
-
-VirtualBox does not supply an EDID for its virtual display, and macOS does not enable display scaling (high PPI) without an EDID. The bootloader OpenCore can [inject an EDID](https://github.com/acidanthera/WhateverGreen/blob/master/Manual/FAQ.IntelHD.en.md#edid) which enables display scaling.
-
-### FileVault
-
-The VirtualBox EFI implementation does not properly load the FileVault full disk encryption password prompt upon boot. The bootloader [OpenCore](https://github.com/acidanthera/OpenCorePkg/releases/tag/0.5.8) is able to load the password prompt with the parameter `ProvideConsoleGop` set to `true`. See sample [config.plist](https://github.com/myspaghetti/macos-virtualbox/files/4640669/config.plist.txt).
-
-## Dependencies
+# Dependencies
 
 The following dependencies should be available through a package manager:  
 `bash` `coreutils` `gzip` `unzip` `wget` `xxd` `dmg2img`  `virtualbox`
 
 The following optional packages provide optical character recognition that reduces the required interaction with the script:  
 `tesseract-ocr` `tesseract-ocr-eng`
+
+--------------
 
 Supported versions:
 
@@ -73,3 +47,34 @@ Supported versions:
 * GNU `coreutils` ≥ 8.22, GNU `gzip` ≥ 1.5, Info-ZIP `unzip` ≥ v6.0, GNU `wget` ≥ 1.14, `xxd` ≥ 1.11
 * `dmg2img` ≥ 1.6.5, on Cygwin the package is not available through the package manager so the script downloads it automatically.
 * `tesseract-ocr` ≥ 4
+
+--------------
+
+# Documentation
+
+Documentation can be viewed by executing the command `./macos-guest-virtualbox.sh documentation`
+
+The majority of the script is either documentation, comments, or actionable error messages, which should make the script straightforward to inspect and understand.
+
+--------------
+
+# Primary display resolution
+
+The following primary display resolutions are supported by macOS on VirtualBox: `5120x2880` `2880x1800` `2560x1600` `2560x1440` `1920x1200` `1600x1200` `1680x1050` `1440x900` `1280x800` `1024x768` `640x480`. See the [documentation command](#documentation) for further information.
+
+--------------
+
+# Unsupported features
+
+Developing and maintaining VirtualBox or macOS features is beyond the scope of this script. Some features may behave unexpectedly, such as USB device support, audio support, FileVault boot password prompt support, and other features.
+
+--------------
+
+# Performance and deployment
+
+After successfully creating a working macOS virtual machine, consider importing it into more performant virtualization software, or packaging it for configuration management platforms for automated deployment. These virtualization and deployment applications require additional configuration that is beyond the scope of the script.
+
+QEMU with KVM is capable of providing virtual machine hardware passthrough for near-native performance. QEMU supports the `VMDK` virtual disk image storage format, which can be configured to be created by the script. See the [documentation command](#documentation) for further information. QEMU and KVM require additional configuration that is beyond the scope of the script.
+
+--------------
+
